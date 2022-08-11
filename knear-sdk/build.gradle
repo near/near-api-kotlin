@@ -1,0 +1,97 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.kapt'
+}
+
+ext {
+    tweetnaclJavaVersion = '1.1.2'
+    cryptoKeyEd25519Version = '0.2.0'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        minSdk 26
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.core:core-ktx:$kotlin_extensions_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "com.google.android.material:material:$materal_design_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+
+    //Retrofit and GSON
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "androidx.legacy:legacy-support-v4:$legacy_support_version"
+
+    //picasso
+    implementation "com.squareup.picasso:picasso:$picasso_version"
+
+    //Coroutines
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$coroutines_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$coroutines_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$coroutines_lifecycle_version"
+    implementation 'com.android.volley:volley:1.2.1'
+    implementation 'com.google.code.gson:gson:2.9.0'
+    kapt "androidx.lifecycle:lifecycle-compiler:$coroutines_lifecycle_version"
+
+    implementation "com.goterl:lazysodium-android:5.0.2@aar"
+    implementation "net.java.dev.jna:jna:5.9.0@aar"
+
+    // for print the log of api's in build mode
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation "cash.z.ecc.android:kotlin-bip39:1.0.1"
+
+    //Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    //Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
+
+    implementation 'com.madgag.spongycastle:prov:1.54.0.0'
+    implementation 'com.madgag.spongycastle:pkix:1.54.0.0'
+
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation "androidx.test.ext:junit:$junit_test_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_test_version"
+
+    // Base 58
+    implementation "com.syntifi.crypto:crypto-key-ed25519:$cryptoKeyEd25519Version"
+
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+
+    implementation files("libs/borshj-0.2.0-SNAPSHOT.jar")
+    implementation files("libs/tweetnacl-java-1.1.2.jar")
+}

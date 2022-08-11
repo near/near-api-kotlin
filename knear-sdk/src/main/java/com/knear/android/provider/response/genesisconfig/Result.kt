@@ -1,0 +1,33 @@
+package com.knear.android.provider.response.genesisconfig
+
+data class Result(
+    val avg_hidden_validator_seats_per_shard: List<Int> = listOf(),
+    val block_producer_kickout_threshold: Int = 0,
+    val chain_id: String = "",
+    val chunk_producer_kickout_threshold: Int = 0,
+    val dynamic_resharding: Boolean = false,
+    val epoch_length: Int = 0,
+    val fishermen_threshold: String = "",
+    val gas_limit: Long = 0L,
+    val gas_price_adjustment_rate: List<Int> = listOf(),
+    val genesis_height: Int = 0,
+    val genesis_time: String = "",
+    val max_gas_price: String = "",
+    val max_inflation_rate: List<Int> = listOf(),
+    val min_gas_price: String = "",
+    val minimum_stake_divisor: Int = 0,
+    val num_block_producer_seats: Int = 0,
+    val num_block_producer_seats_per_shard: List<Int> = listOf(),
+    val num_blocks_per_year: Int = 0,
+    val online_max_threshold: List<Int> = listOf(),
+    val online_min_threshold: List<Int> = listOf(),
+    val protocol_reward_rate: List<Int> = listOf(),
+    val protocol_treasury_account: String = "",
+    val protocol_upgrade_num_epochs: Int = 0,
+    val protocol_upgrade_stake_threshold: List<Int> = listOf(),
+    val protocol_version: Int = 0,
+    val runtime_config: RuntimeConfig? = null,
+    val total_supply: String = "",
+    val transaction_validity_period: Int = 0,
+    val validators: List<Validator> = listOf()
+)
