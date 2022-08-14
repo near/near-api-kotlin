@@ -14,7 +14,18 @@ ext {
 
 android {
     compileSdk 31
-
+    afterEvaluate {
+        publishing {
+            publications {
+                release(MavenPublication) {
+                    from components.release
+                    groupId = 'com.knear.android'
+                    artifactId = 'near-api'
+                    version = '1.0.0'
+                }
+            }
+        }
+    }
     defaultConfig {
         minSdk 26
         targetSdk 31
@@ -97,15 +108,3 @@ dependencies {
     implementation files("libs/tweetnacl-java-1.1.2.jar")
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = 'com.knear.android'
-                artifactId = 'near-api'
-                version = '1.0.0'
-            }
-        }
-    }
-}
