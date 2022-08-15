@@ -21,6 +21,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    packagingOptions {
+        exclude 'META-INF/*'
+    }
 
     buildTypes {
         release {
@@ -100,7 +103,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.near'
                 artifactId = 'near-api'
-                version = '1.0.3'
+                version = '1.0.4'
             }
         }
     }
