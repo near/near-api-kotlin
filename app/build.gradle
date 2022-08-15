@@ -46,12 +46,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    //implementation project(path: ':near-android-sdk')
-    implementation project(path: ':knear-sdk')
+    implementation 'com.github.near:near-api-kotlin:1.0.5'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation "net.java.dev.jna:jna:5.8.0@aar"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 
