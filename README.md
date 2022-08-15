@@ -21,17 +21,28 @@ Near Android SDK implemented in Kotlin to interact with the NEAR blockchain.
 # RPC Calls
 We support [THIS](https://docs.near.org/api/rpc/introduction) rpc calls.
 
-# Usage
-
 ## Configuration
 
-First add the next permissions in your Manifest file
+First add dependency to your app build.gradle
+```
+implementation 'com.github.near:near-api-kotlin:1.0.5'
+```
+
+then, add the next resource in your settings.gradle
+
+```
+maven { url "https://jitpack.io" }
+```
+
+## Usage
+
+In your manifest add the next permissions
 
 ```
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 <uses-permission android:name="android.permission.INTERNET" />
 ```
-In your manifest, you should have an activity and inside you have to add an intent filter
+you should have an activity and inside you have to add an intent filter
 
 ```
 <activity
