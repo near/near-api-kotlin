@@ -70,7 +70,6 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation "cash.z.ecc.android:kotlin-bip39:1.0.1"
 
     //Room
     implementation "androidx.room:room-runtime:$room_version"
@@ -101,7 +100,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.near'
                 artifactId = 'near-api'
-                version = '1.0.2'
+                version = '1.0.3'
             }
         }
     }
