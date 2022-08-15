@@ -62,7 +62,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
     kapt "androidx.lifecycle:lifecycle-compiler:$coroutines_lifecycle_version"
 
-    implementation "com.goterl:lazysodium-android:5.0.2@aar"
+    
     implementation "net.java.dev.jna:jna:5.9.0@aar"
 
     // for print the log of api's in build mode
