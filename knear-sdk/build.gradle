@@ -4,16 +4,15 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'org.jetbrains.kotlin.kapt'
+    id 'maven-publish'
 }
 
 ext {
     tweetnaclJavaVersion = '1.1.2'
     cryptoKeyEd25519Version = '0.2.0'
 }
-
 android {
     compileSdk 31
-
     defaultConfig {
         minSdk 26
         targetSdk 31
@@ -35,6 +34,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    packagingOptions {
+        exclude 'META-INF/*'
     }
 }
 
@@ -63,7 +65,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
     kapt "androidx.lifecycle:lifecycle-compiler:$coroutines_lifecycle_version"
 
-    implementation "com.goterl:lazysodium-android:5.0.2@aar"
+
     implementation "net.java.dev.jna:jna:5.9.0@aar"
 
     // for print the log of api's in build mode
@@ -71,7 +73,6 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation "cash.z.ecc.android:kotlin-bip39:1.0.1"
 
     //Room
     implementation "androidx.room:room-runtime:$room_version"
@@ -94,4 +95,16 @@ dependencies {
 
     implementation files("libs/borshj-0.2.0-SNAPSHOT.jar")
     implementation files("libs/tweetnacl-java-1.1.2.jar")
+}
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.near'
+                artifactId = 'near-api'
+                version = '1.0.5'
+            }
+        }
+    }
 }
