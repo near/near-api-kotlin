@@ -62,7 +62,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
     kapt "androidx.lifecycle:lifecycle-compiler:$coroutines_lifecycle_version"
 
-    
+
     implementation "net.java.dev.jna:jna:5.9.0@aar"
 
     // for print the log of api's in build mode
@@ -101,7 +101,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.knear.android'
                 artifactId = 'near-api'
-                version = '1.0.0'
+                version = '1.0.1'
             }
         }
     }
