@@ -24,7 +24,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -99,9 +99,9 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-                groupId = 'com.knear.android'
+                groupId = 'com.github.near'
                 artifactId = 'near-api'
-                version = '1.0.1'
+                version = '1.0.2'
             }
         }
     }
