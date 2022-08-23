@@ -101,9 +101,9 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-                groupId = 'com.github.near'
+                groupId = 'io.github.near'
                 artifactId = 'near-api'
-                version = '1.0.5'
+                version = '1.0.0'
             }
         }
     }
