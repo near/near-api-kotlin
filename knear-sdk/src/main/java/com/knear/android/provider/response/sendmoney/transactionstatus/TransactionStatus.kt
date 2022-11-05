@@ -7,20 +7,20 @@ import com.knear.android.provider.response.sendmoney.Result
 import okhttp3.Response
 
 data class TransactionStatus(
-    @SerializedName("jsonrpc") var jsonrpc : String? = null,
-    @SerializedName("result") var result : Result = Result(),
-    @SerializedName("id") var id : String? = null,
+    @SerializedName("jsonrpc") var jsonrpc: String? = null,
+    @SerializedName("result") var result: Result = Result(),
+    @SerializedName("id") var id: String? = null,
     @SerializedName("error") var error: ErrorResponse? = null
 ) {
     companion object {
         @JvmStatic
         @JvmName("create")
-        fun Response.getTransactionStatus() : TransactionStatus {
+        fun Response.getTransactionStatus(): TransactionStatus {
             val gson = Gson()
-            if(this.isSuccessful) {
+            if (this.isSuccessful) {
                 this.body?.let {
                     return gson.fromJson(it.string(), TransactionStatus::class.java)
-                }?: TransactionStatus()
+                } ?: TransactionStatus()
             }
             return TransactionStatus()
         }

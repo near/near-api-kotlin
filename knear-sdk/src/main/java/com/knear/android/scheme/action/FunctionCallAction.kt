@@ -12,4 +12,4 @@ class FunctionCallAction(
     private val gas: Long,
     @BorshField(order = 4)
     private val depositValue: BigInteger,
-): Action
+) : Action

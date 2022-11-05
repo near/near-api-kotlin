@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_login.view.*
 
 class LoginFragment : Fragment() {
 
-    private lateinit var v:View
+    private lateinit var v: View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -18,10 +18,10 @@ class LoginFragment : Fragment() {
     ): View {
         v = inflater.inflate(R.layout.fragment_login, container, false)
 
-        v.login_btn_cv.setOnClickListener{
+        v.login_btn_cv.setOnClickListener {
             val email = v.user_email_et.text.toString()
 
-            if (email.isNotEmpty()){
+            if (email.isNotEmpty()) {
                 (activity as NearDemoMainActivity).login(email)
             }
         }

@@ -8,7 +8,7 @@ import com.knear.android.NearService
 import com.knear.android.scheme.KeyPair
 import com.knear.android.scheme.KeyPairEd25519
 
-class NearMainService(val activity:Activity) {
+class NearMainService(val activity: Activity) {
 
     private var networkId = "wallet.testnet.near.org"
     private var accountId: String = ""
@@ -19,18 +19,20 @@ class NearMainService(val activity:Activity) {
     private var allKeys: String = ""
     private var publicKey: String = ""
 
-    private var nearService : NearService = NearService(walletUrl, rcpEndpoint, activity.getPreferences(AppCompatActivity.MODE_PRIVATE))
+    private var nearService: NearService =
+        NearService(walletUrl, rcpEndpoint, activity.getPreferences(AppCompatActivity.MODE_PRIVATE))
     private lateinit var privateKey: KeyPairEd25519
-    private var androidKeyStore: AndroidKeyStore = AndroidKeyStore(activity.getPreferences(AppCompatActivity.MODE_PRIVATE))
+    private var androidKeyStore: AndroidKeyStore =
+        AndroidKeyStore(activity.getPreferences(AppCompatActivity.MODE_PRIVATE))
 
-    fun login(email:String){
+    fun login(email: String) {
         this.androidKeyStore.setAccountId(email)
         this.androidKeyStore.setNetworkId(networkId)
 
         val networkId = androidKeyStore.getNetworkId()
         val accountId = androidKeyStore.getAccountId();
 
-        if(!networkId.isNullOrEmpty() && !accountId.isNullOrEmpty()) {
+        if (!networkId.isNullOrEmpty() && !accountId.isNullOrEmpty()) {
             this.accountId = accountId
             this.networkId = networkId
         }
@@ -48,7 +50,7 @@ class NearMainService(val activity:Activity) {
         activity.startActivity(intent)
     }
 
-    fun attemptLogin(uri: Uri?):Boolean {
+    fun attemptLogin(uri: Uri?): Boolean {
         var success = false
         uri?.let {
             if (it.toString().startsWith(redirectUri)) {
@@ -61,9 +63,10 @@ class NearMainService(val activity:Activity) {
                     allKeys = currentKeys
                     publicKey = currentPublicKey
 
-                    androidKeyStore.getKey(networkId, accountId)?.let { this.privateKey = it
+                    androidKeyStore.getKey(networkId, accountId)?.let {
+                        this.privateKey = it
 
-                    this.nearService.finishLogging(networkId, this.privateKey, accountId)
+                        this.nearService.finishLogging(networkId, this.privateKey, accountId)
                         success = true
                     }
                 }
@@ -72,31 +75,48 @@ class NearMainService(val activity:Activity) {
         return success
     }
 
-    fun sendTransaction(receiver: String, amount: String) = this.nearService.sendMoney(accountId, receiver, amount)
+    fun sendTransaction(receiver: String, amount: String) =
+        this.nearService.sendMoney(accountId, receiver, amount)
 
     fun callViewFunction(
         contractName: String,
         total: String,
         totalSupplyArgs: String
-    ) = nearService.callViewFunction(accountId,contractName, total,totalSupplyArgs)
+    ) = nearService.callViewFunction(accountId, contractName, total, totalSupplyArgs)
 
-    fun callViewFunctionTransaction(contractName: String, methodName: String, balanceOfArgs: String) =
+    fun callViewFunctionTransaction(
+        contractName: String,
+        methodName: String,
+        balanceOfArgs: String
+    ) =
         nearService.callViewFunctionTransaction(accountId, contractName, methodName, balanceOfArgs)
 
     fun viewAccessKey() = nearService.viewAccessKey(accountId)
     fun viewAccessKeyLists() = nearService.viewAccessKeyList(accountId)
-    fun viewAccessKeyChangesAll(accountIdList:List<String>) = nearService.viewAccessKeyChangeAll(accountIdList,publicKey)
-    fun viewAccessKeyChange(currentAccessKey:String) = nearService.viewAccessKeyChange(accountId, currentAccessKey)
-    fun transactionStatus(txResultHash:String) = nearService.transactionStatus(txResultHash, accountId)
+    fun viewAccessKeyChangesAll(accountIdList: List<String>) =
+        nearService.viewAccessKeyChangeAll(accountIdList, publicKey)
+
+    fun viewAccessKeyChange(currentAccessKey: String) =
+        nearService.viewAccessKeyChange(accountId, currentAccessKey)
+
+    fun transactionStatus(txResultHash: String) =
+        nearService.transactionStatus(txResultHash, accountId)
+
     fun viewAccount() = nearService.viewAccount(accountId)
-    fun viewAccountChanges(accountIdList: List<String>, blockId:Int) = nearService.viewAccountChanges(accountIdList, blockId)
+    fun viewAccountChanges(accountIdList: List<String>, blockId: Int) =
+        nearService.viewAccountChanges(accountIdList, blockId)
+
     fun viewContractCode() = nearService.viewContractCode(accountId)
     fun viewContractState() = nearService.viewContractState(accountId)
-    fun viewContractStateChanges(accountIdList: List<String>, keyPrefix:String, blockId:Int) = nearService.viewContractStateChanges(accountIdList, keyPrefix, blockId)
-    fun viewContractCodeChanges(accountIdList: List<String>, blockId:Int) = nearService.viewContractCodeChanges(accountIdList, blockId)
+    fun viewContractStateChanges(accountIdList: List<String>, keyPrefix: String, blockId: Int) =
+        nearService.viewContractStateChanges(accountIdList, keyPrefix, blockId)
+
+    fun viewContractCodeChanges(accountIdList: List<String>, blockId: Int) =
+        nearService.viewContractCodeChanges(accountIdList, blockId)
+
     fun getBlockDetails(blockId: Int) = nearService.blockDetails(blockId)
     fun getBlockChanges(blockId: Int) = nearService.blockChanges(blockId)
-    fun getChunkHash(chunksHash:String) = nearService.chunkDetails(chunksHash)
+    fun getChunkHash(chunksHash: String) = nearService.chunkDetails(chunksHash)
     fun gasPrice(blockId: Int) = nearService.gasPrice(blockId)
     fun getGenesisConfiguration() = nearService.getGenesisConfig()
     fun getProtocolConfig() = nearService.getProtocolConfig()

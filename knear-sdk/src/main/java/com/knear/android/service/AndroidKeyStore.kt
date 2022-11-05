@@ -18,7 +18,7 @@ class AndroidKeyStore(sharedPreferences: SharedPreferences) {
         editor.commit()
     }
 
-    fun getAccountId() : String? {
+    fun getAccountId(): String? {
         return this.sharedPreferences.getString("accountId", "")
     }
 
@@ -37,14 +37,14 @@ class AndroidKeyStore(sharedPreferences: SharedPreferences) {
         editor.commit()
     }
 
-    fun getKey(networkId: String, accountId: String) : KeyPairEd25519? {
+    fun getKey(networkId: String, accountId: String): KeyPairEd25519? {
         val secretKey = sharedPreferences.getString("$accountId:$networkId", "")
         val publicKey = sharedPreferences.getString("$accountId:$networkId:public", "")
-        if(secretKey.isNullOrEmpty()) {
+        if (secretKey.isNullOrEmpty()) {
             return null
         }
 
-        if(publicKey.isNullOrEmpty()) {
+        if (publicKey.isNullOrEmpty()) {
             return null
         }
 

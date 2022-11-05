@@ -4,7 +4,7 @@ import com.iwebpp.crypto.TweetNaclFast
 import com.syntifi.crypto.key.Ed25519PrivateKey
 import com.syntifi.crypto.key.encdec.Base58
 
-class KeyPairEd25519 (ed25519SecretKey: String, ed25519PublicKey: String) : KeyPair() {
+class KeyPairEd25519(ed25519SecretKey: String, ed25519PublicKey: String) : KeyPair() {
     var publicKey: PublicKey
     private var secretKey: String
     private var data: ByteArray
@@ -12,12 +12,12 @@ class KeyPairEd25519 (ed25519SecretKey: String, ed25519PublicKey: String) : KeyP
     init {
         val publicKeyAsBytes = Base58.decode(ed25519PublicKey)
         this.data = Base58.decode(ed25519SecretKey)
-        this.publicKey = PublicKey(KeyType.ED25519, publicKeyAsBytes )
+        this.publicKey = PublicKey(KeyType.ED25519, publicKeyAsBytes)
         this.secretKey = ed25519SecretKey
     }
 
     companion object {
-        fun fromRandom() : KeyPairEd25519 {
+        fun fromRandom(): KeyPairEd25519 {
             val keyPair = TweetNaclFast.Signature.keyPair();
 
             val encodedSecret = Base58.encode(keyPair.secretKey)
@@ -41,7 +41,7 @@ class KeyPairEd25519 (ed25519SecretKey: String, ed25519PublicKey: String) : KeyP
         return twSignature.detached_verify(message, signature)
     }
 
-    override fun toString() : String {
+    override fun toString(): String {
         return "ed25519:${this.secretKey}"
     }
 }

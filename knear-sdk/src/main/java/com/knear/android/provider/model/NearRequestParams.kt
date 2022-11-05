@@ -8,7 +8,7 @@ class NearRequestParams(
     @SerializedName("block_id")
     val blockId: String? = null,
     @SerializedName("request_type")
-    val requestType: String? =  null,
+    val requestType: String? = null,
     @SerializedName("account_id")
     val accountId: String? = null,
     @SerializedName("public_key")
