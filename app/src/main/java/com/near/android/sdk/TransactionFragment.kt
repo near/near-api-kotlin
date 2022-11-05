@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_transaction.view.*
 
 class TransactionFragment : Fragment() {
 
-    lateinit var v:View
+    lateinit var v: View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +24,7 @@ class TransactionFragment : Fragment() {
             (activity as NearDemoMainActivity).sendTransaction()
             v.tx_progress.visibility = View.VISIBLE
         }
-        v.call_function_btn_cv.setOnClickListener{
+        v.call_function_btn_cv.setOnClickListener {
             (activity as NearDemoMainActivity).requestCallFunction()
             v.tx_progress.visibility = View.VISIBLE
         }

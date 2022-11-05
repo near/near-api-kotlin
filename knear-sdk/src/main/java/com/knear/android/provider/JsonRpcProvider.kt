@@ -43,10 +43,10 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 
 
-class JsonRpcProvider (private val rcpEndpoint: String) {
+class JsonRpcProvider(private val rcpEndpoint: String) {
     private var nextId = 123
 
-    fun viewAccessKey(accountId: String, base58PublicKey: String) : ViewAccessKey {
+    fun viewAccessKey(accountId: String, base58PublicKey: String): ViewAccessKey {
         val params = NearRequestParams(
             finality = "optimistic",
             requestType = "view_access_key",
@@ -57,7 +57,7 @@ class JsonRpcProvider (private val rcpEndpoint: String) {
         return response?.toViewAccessKey() ?: ViewAccessKey()
     }
 
-    fun viewAccessKeyList(accountId: String, base58PublicKey: String) : ViewAccessKeyList {
+    fun viewAccessKeyList(accountId: String, base58PublicKey: String): ViewAccessKeyList {
         val params = NearRequestParams(
             finality = "optimistic",
             requestType = "view_access_key_list",
@@ -65,21 +65,29 @@ class JsonRpcProvider (private val rcpEndpoint: String) {
             publicKey = base58PublicKey
         )
         val response = this.sendJsonRpc("query", params)
-        return response?.toViewAccessKeyList()?: ViewAccessKeyList()
+        return response?.toViewAccessKeyList() ?: ViewAccessKeyList()
     }
 
-    fun viewAccessKeyChanges(accountId: String, base58PublicKey: String) : ViewAccessKeyChangesResult {
+    fun viewAccessKeyChanges(
+        accountId: String,
+        base58PublicKey: String
+    ): ViewAccessKeyChangesResult {
         val keys = Keys(accountId, base58PublicKey)
         val paramsList = listOf(keys)
-        val viewAccessKeyChangesParams = ViewAccessKeyChangesParams("single_access_key_changes",paramsList)
-        val response = this.sendJsonRpc("EXPERIMENTAL_changes",  viewAccessKeyChangesParams)
-        return response?.toViewAccessKeyChanges()?: ViewAccessKeyChangesResult()
+        val viewAccessKeyChangesParams =
+            ViewAccessKeyChangesParams("single_access_key_changes", paramsList)
+        val response = this.sendJsonRpc("EXPERIMENTAL_changes", viewAccessKeyChangesParams)
+        return response?.toViewAccessKeyChanges() ?: ViewAccessKeyChangesResult()
     }
 
-    fun viewAccessKeyChangesAll(accountIdList: List<String>, base58PublicKey: String) : ViewAccessKeyChangesAllResult {
-        val viewAccessKeyChangesAllParams = ViewAccessKeyChangesAllParams("all_access_key_changes",accountIdList,base58PublicKey)
-        val response = this.sendJsonRpc("EXPERIMENTAL_changes",  viewAccessKeyChangesAllParams)
-        return response?.toViewAccessKeyChangesAll()?: ViewAccessKeyChangesAllResult()
+    fun viewAccessKeyChangesAll(
+        accountIdList: List<String>,
+        base58PublicKey: String
+    ): ViewAccessKeyChangesAllResult {
+        val viewAccessKeyChangesAllParams =
+            ViewAccessKeyChangesAllParams("all_access_key_changes", accountIdList, base58PublicKey)
+        val response = this.sendJsonRpc("EXPERIMENTAL_changes", viewAccessKeyChangesAllParams)
+        return response?.toViewAccessKeyChangesAll() ?: ViewAccessKeyChangesAllResult()
     }
 
     fun viewAccount(accountId: String): ViewAccountResult {
@@ -89,19 +97,25 @@ class JsonRpcProvider (private val rcpEndpoint: String) {
             accountId = accountId
         )
         val response = this.sendJsonRpc("query", params)
-        return response?.toViewAccount()?: ViewAccountResult()
+        return response?.toViewAccount() ?: ViewAccountResult()
     }
 
     fun viewAccountChanges(accountIdList: List<String>, blockId: Int): ViewAccountChangesResult {
-        val viewAccountChangesParams = ViewAccountChangesParams("account_changes", accountIdList, blockId)
-        val response = this.sendJsonRpc("EXPERIMENTAL_changes",  viewAccountChangesParams)
-        return response?.toViewAccountChanges()?: ViewAccountChangesResult()
+        val viewAccountChangesParams =
+            ViewAccountChangesParams("account_changes", accountIdList, blockId)
+        val response = this.sendJsonRpc("EXPERIMENTAL_changes", viewAccountChangesParams)
+        return response?.toViewAccountChanges() ?: ViewAccountChangesResult()
     }
 
-    fun viewContractStateChanges(accountIdList: List<String>, keyPrefix64:String, blockId: Int): ViewContractStateChangesResult {
-        val viewContractStateChangesParams = ViewContractStateChangesParams("data_changes", accountIdList, keyPrefix64,blockId)
-        val response = this.sendJsonRpc("EXPERIMENTAL_changes",  viewContractStateChangesParams)
-        return response?.toViewContractStateChanges()?: ViewContractStateChangesResult()
+    fun viewContractStateChanges(
+        accountIdList: List<String>,
+        keyPrefix64: String,
+        blockId: Int
+    ): ViewContractStateChangesResult {
+        val viewContractStateChangesParams =
+            ViewContractStateChangesParams("data_changes", accountIdList, keyPrefix64, blockId)
+        val response = this.sendJsonRpc("EXPERIMENTAL_changes", viewContractStateChangesParams)
+        return response?.toViewContractStateChanges() ?: ViewContractStateChangesResult()
     }
 
 
@@ -112,7 +126,7 @@ class JsonRpcProvider (private val rcpEndpoint: String) {
             accountId = accountId
         )
         val response = this.sendJsonRpc("query", params)
-        return response?.toViewContractCode()?: ViewContractCodeResult()
+        return response?.toViewContractCode() ?: ViewContractCodeResult()
     }
 
     fun viewContractState(accountId: String): ViewContractStateResult {
@@ -122,37 +136,41 @@ class JsonRpcProvider (private val rcpEndpoint: String) {
             accountId = accountId
         )
         val response = this.sendJsonRpc("query", params)
-        return response?.toViewContractState()?: ViewContractStateResult()
+        return response?.toViewContractState() ?: ViewContractStateResult()
     }
 
-    fun viewContractCodeChanges(accountIdList: List<String>, blockId: Int): ViewContractCodeChangesResult {
-        val viewAccountChangesParams = ViewContractCodeChangesParams("contract_code_changes", accountIdList, blockId)
-        val response = this.sendJsonRpc("EXPERIMENTAL_changes",  viewAccountChangesParams)
-        return response?.toViewContractCodeChanges()?: ViewContractCodeChangesResult()
+    fun viewContractCodeChanges(
+        accountIdList: List<String>,
+        blockId: Int
+    ): ViewContractCodeChangesResult {
+        val viewAccountChangesParams =
+            ViewContractCodeChangesParams("contract_code_changes", accountIdList, blockId)
+        val response = this.sendJsonRpc("EXPERIMENTAL_changes", viewAccountChangesParams)
+        return response?.toViewContractCodeChanges() ?: ViewContractCodeChangesResult()
     }
 
-    fun block() : Block {
+    fun block(): Block {
         val params = NearRequestParams(finality = "final")
-        val response : Response? = this.sendJsonRpc("block", params)
-        return response?.toBlock()?: Block()
+        val response: Response? = this.sendJsonRpc("block", params)
+        return response?.toBlock() ?: Block()
     }
 
     fun blockDetails(blockId: Int): Block {
         val params = BlockDetailsParams(blockId)
-        val response : Response? = this.sendJsonRpc("block", params)
-        return response?.toBlock()?: Block()
+        val response: Response? = this.sendJsonRpc("block", params)
+        return response?.toBlock() ?: Block()
     }
 
     fun blockChanges(blockId: Int): BlockChangesResult {
         val params = BlockDetailsParams(blockId)
-        val response : Response? = this.sendJsonRpc("EXPERIMENTAL_changes_in_block", params)
-        return response?.toBlockChanges()?: BlockChangesResult()
+        val response: Response? = this.sendJsonRpc("EXPERIMENTAL_changes_in_block", params)
+        return response?.toBlockChanges() ?: BlockChangesResult()
     }
 
     fun chunkDetails(blockId: String): ChunkDetailsResult {
         val params = ChunkDetailsParams(blockId)
-        val response : Response? = this.sendJsonRpc("chunk", params)
-        return response?.toChunkDetails()?: ChunkDetailsResult()
+        val response: Response? = this.sendJsonRpc("chunk", params)
+        return response?.toChunkDetails() ?: ChunkDetailsResult()
     }
 
     fun sendTransaction(method: String, params: List<String>): Response? {
@@ -163,16 +181,17 @@ class JsonRpcProvider (private val rcpEndpoint: String) {
         method: String,
         viewAccessKeyChangesParams: ViewAccessKeyChangesParams
     ): Response? {
-        val nearRequestBody = ViewAccessKeyChangesRequestParams(method, viewAccessKeyChangesParams, ++this.nextId)
+        val nearRequestBody =
+            ViewAccessKeyChangesRequestParams(method, viewAccessKeyChangesParams, ++this.nextId)
         val client = OkHttpClient()
         val jsonRequest = nearRequestBody.toString()
-        val requestJsonBody : RequestBody = jsonRequest
+        val requestJsonBody: RequestBody = jsonRequest
             .toRequestBody("application/json; charset=utf-8".toMediaType())
         val requestBuilder = Request.Builder()
         val postRequest = requestBuilder.url("$rcpEndpoint").post(requestJsonBody)
         return try {
             client.newCall(postRequest.build()).execute()
-        } catch ( ex :Throwable ) {
+        } catch (ex: Throwable) {
             Log.i("JsonRpcProvider.sendJsonRcp", ex.message!!)
             null
         }
@@ -182,28 +201,29 @@ class JsonRpcProvider (private val rcpEndpoint: String) {
         method: String,
         viewChangesParams: Any
     ): Response? {
-        val nearRequestBody = ViewAccessKeyChangesAllRequestParams(method, viewChangesParams, ++this.nextId)
+        val nearRequestBody =
+            ViewAccessKeyChangesAllRequestParams(method, viewChangesParams, ++this.nextId)
         val client = OkHttpClient()
         val jsonRequest = nearRequestBody.toString()
-        val requestJsonBody : RequestBody = jsonRequest
+        val requestJsonBody: RequestBody = jsonRequest
             .toRequestBody("application/json; charset=utf-8".toMediaType())
         val requestBuilder = Request.Builder()
         val postRequest = requestBuilder.url("$rcpEndpoint").post(requestJsonBody)
         return try {
             client.newCall(postRequest.build()).execute()
-        } catch ( ex :Throwable ) {
+        } catch (ex: Throwable) {
             Log.i("JsonRpcProvider.sendJsonRcp", ex.message!!)
             null
         }
     }
 
-    fun sendJsonRpc(method: String, params: NearRequestParams) : Response? {
+    fun sendJsonRpc(method: String, params: NearRequestParams): Response? {
         val nearRequestBody = NearRequest(method, params, ++this.nextId)
 
         val client = OkHttpClient()
 
         val jsonString = nearRequestBody.toString()
-        val requestJsonBody : RequestBody = jsonString
+        val requestJsonBody: RequestBody = jsonString
             .toRequestBody("application/json".toMediaType())
 
         val requestBuilder = Request.Builder()
@@ -211,20 +231,20 @@ class JsonRpcProvider (private val rcpEndpoint: String) {
 
         return try {
             client.newCall(postRequest.build()).execute()
-        } catch ( ex :Throwable ) {
+        } catch (ex: Throwable) {
             Log.i("JsonRpcProvider.sendJsonRcp", ex.message!!)
             null
         }
 
     }
 
-    private fun sendJsonRpc(method: String, params: List<String>) : Response? {
+    private fun sendJsonRpc(method: String, params: List<String>): Response? {
         val nearRequestBody = NearRequestParamList(method, params, ++this.nextId)
 
         val client = OkHttpClient()
 
         val jsonRequest = nearRequestBody.toString()
-        val requestJsonBody : RequestBody = jsonRequest
+        val requestJsonBody: RequestBody = jsonRequest
             .toRequestBody("application/json; charset=utf-8".toMediaType())
 
         val requestBuilder = Request.Builder()
@@ -232,36 +252,37 @@ class JsonRpcProvider (private val rcpEndpoint: String) {
 
         return try {
             client.newCall(postRequest.build()).execute()
-        } catch ( ex :Throwable ) {
+        } catch (ex: Throwable) {
             Log.i("JsonRpcProvider.sendJsonRcp", ex.message!!)
             null
         }
     }
 
-    fun transactionStatus(transactionHashResult:String, accountId:String): TransactionStatus {
+    fun transactionStatus(transactionHashResult: String, accountId: String): TransactionStatus {
         val paramsList = listOf(transactionHashResult, accountId)
         val response = this.sendJsonRpc("tx", paramsList)
-        return response?.getTransactionStatus()?: TransactionStatus()
+        return response?.getTransactionStatus() ?: TransactionStatus()
     }
 
     fun gasPrice(blockId: Int): GasPriceResult {
         val paramsList = listOf(blockId)
         val response = this.sendJsonRpc("gas_price", paramsList)
-        return response?.gasPriceResult()?: GasPriceResult()
+        return response?.gasPriceResult() ?: GasPriceResult()
     }
 
     fun getGenesisConfig(): GenesisConfigResult {
         val response = this.sendJsonRpc("EXPERIMENTAL_genesis_config", listOf())
-        return response?.getGenesisConfigResult()?: GenesisConfigResult()
+        return response?.getGenesisConfigResult() ?: GenesisConfigResult()
     }
 
     fun getProtocolConfig(): ProtocolConfigResult {
-        val response = this.sendJsonRpc("EXPERIMENTAL_protocol_config", ProtocolConfigParams("final"))
-        return response?.getProtocolConfigResult()?: ProtocolConfigResult()
+        val response =
+            this.sendJsonRpc("EXPERIMENTAL_protocol_config", ProtocolConfigParams("final"))
+        return response?.getProtocolConfigResult() ?: ProtocolConfigResult()
     }
 
     fun getNetworkStatus(): NetworkStatusResult {
         val response = this.sendJsonRpc("status", listOf())
-        return response?.getNetworkStatus()?: NetworkStatusResult()
+        return response?.getNetworkStatus() ?: NetworkStatusResult()
     }
 }

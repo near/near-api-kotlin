@@ -4,7 +4,7 @@ import com.knear.android.scheme.action.Action
 import com.syntifi.near.borshj.Borsh
 import com.syntifi.near.borshj.annotation.BorshField
 
-open class Transaction (
+open class Transaction(
     @BorshField(order = 1)
     var signerId: String,
     @BorshField(order = 2)
@@ -14,7 +14,7 @@ open class Transaction (
     @BorshField(order = 4)
     var receiverId: String,
     @BorshField(order = 5)
-    var blockHash : ByteArray,
+    var blockHash: ByteArray,
     @BorshField(order = 6)
     var actions: Collection<Action>,
-    ) : Borsh
+) : Borsh

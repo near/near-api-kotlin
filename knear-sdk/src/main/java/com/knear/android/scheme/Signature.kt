@@ -5,7 +5,7 @@ import com.syntifi.near.borshj.Borsh
 import com.syntifi.near.borshj.annotation.BorshField
 
 
-class Signature (
+class Signature(
     @BorshField(order = 1)
     var type: KeyType,
     @BorshField(order = 2)
