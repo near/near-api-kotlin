@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'org.jetbrains.kotlin.kapt'
+    id 'maven-publish'
 }
 
 ext {
@@ -48,6 +49,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    packagingOptions {
+        exclude 'META-INF/*'
     }
 }
 
@@ -107,4 +111,16 @@ dependencies {
 
     implementation files("libs/borshj-0.2.0-SNAPSHOT.jar")
     implementation files("libs/tweetnacl-java-1.1.2.jar")
+}
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.near'
+                artifactId = 'near-api'
+                version = '1.0.6'
+            }
+        }
+    }
 }
