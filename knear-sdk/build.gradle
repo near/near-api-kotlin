@@ -10,9 +10,24 @@ plugins {
 ext {
     tweetnaclJavaVersion = '1.1.2'
     cryptoKeyEd25519Version = '0.2.0'
+    kotlin_version = "1.7.20"
+    kotlin_extensions_version = "1.7.0"
+    appcompat_version = "1.4.1"
+    materal_design_version = "1.5.0"
+    constraint_layout_version = "2.1.3"
+    retrofit_version = "2.9.0"
+    gson_version = "2.8.6"
+    legacy_support_version = "1.0.0"
+    picasso_version = "2.71828"
+    coroutines_lifecycle_version = "2.4.1"
+    junit_test_version = "1.1.3"
+    espresso_test_version = "3.4.0"
+    room_version = "2.5.0"
 }
+
 android {
     compileSdk 31
+
     defaultConfig {
         minSdk 26
         targetSdk 31
@@ -65,7 +80,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
     kapt "androidx.lifecycle:lifecycle-compiler:$coroutines_lifecycle_version"
 
-
+    implementation "com.goterl:lazysodium-android:5.0.2@aar"
     implementation "net.java.dev.jna:jna:5.9.0@aar"
 
     // for print the log of api's in build mode
@@ -73,6 +88,7 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    //implementation "cash.z.ecc.android:kotlin-bip39:1.0.1"
 
     //Room
     implementation "androidx.room:room-runtime:$room_version"
@@ -103,7 +119,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.near'
                 artifactId = 'near-api'
-                version = '1.0.5'
+                version = '1.0.6'
             }
         }
     }

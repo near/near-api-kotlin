@@ -1,6 +1,6 @@
 package com.knear.android
 
-import android.content.SharedPreferences
+import android.app.Activity
 import android.net.Uri
 import android.util.Log
 import com.knear.android.provider.JsonRpcProvider
@@ -30,11 +30,7 @@ import com.knear.android.service.AndroidKeyStore
 import com.knear.android.scheme.KeyPairEd25519
 import com.knear.android.scheme.PublicKey
 
-open class NearService(
-    private val walletUrl: String,
-    private val rcpEndpoint: String,
-    private var sharedPreferences: SharedPreferences
-) {
+open class NearService(private val walletUrl: String, private val rcpEndpoint: String, private var activityContext: Activity) {
     private val referrerParam: String by lazy { "Android SDK" }
     private val titleParam: String by lazy { "Android SDK" }
     val jsonRpcProvider = JsonRpcProvider(rcpEndpoint)
@@ -53,8 +49,8 @@ open class NearService(
             .build()
     }
 
-    fun finishLogging(networkId: String, secretKey: KeyPairEd25519, accountId: String) {
-        val androidKeyStore = AndroidKeyStore(this.sharedPreferences)
+    fun finishLogging(networkId : String, secretKey: KeyPairEd25519, accountId: String) {
+        val androidKeyStore = AndroidKeyStore(activityContext)
         androidKeyStore.setAccountId(accountId)
         androidKeyStore.setNetworkId(networkId)
         androidKeyStore.setKey(networkId, accountId, secretKey)
@@ -68,11 +64,7 @@ open class NearService(
         return jsonRpcProvider.viewAccountChanges(accountIdList, blockId)
     }
 
-    fun viewContractStateChanges(
-        accountIdList: List<String>,
-        keyPrefix64: String,
-        blockId: Int
-    ): ViewContractStateChangesResult {
+    fun viewContractStateChanges(accountIdList: List<String>, keyPrefix64:String, blockId: Int): ViewContractStateChangesResult {
         return jsonRpcProvider.viewContractStateChanges(accountIdList, keyPrefix64, blockId)
     }
 
@@ -84,10 +76,7 @@ open class NearService(
         return jsonRpcProvider.viewContractState(accountId)
     }
 
-    fun viewContractCodeChanges(
-        accountIdList: List<String>,
-        blockId: Int
-    ): ViewContractCodeChangesResult {
+    fun viewContractCodeChanges(accountIdList: List<String>, blockId: Int): ViewContractCodeChangesResult {
         return jsonRpcProvider.viewContractCodeChanges(accountIdList, blockId)
     }
 
@@ -101,17 +90,11 @@ open class NearService(
         return jsonRpcProvider.viewAccessKeyList(accountId, keyPair?.publicKey.toString())
     }
 
-    fun viewAccessKeyChange(
-        accountId: String,
-        currentAccessKey: String
-    ): ViewAccessKeyChangesResult {
+    fun viewAccessKeyChange(accountId: String, currentAccessKey: String): ViewAccessKeyChangesResult {
         return jsonRpcProvider.viewAccessKeyChanges(accountId, currentAccessKey)
     }
 
-    fun viewAccessKeyChangeAll(
-        accountIdList: List<String>,
-        currentAccessKey: String
-    ): ViewAccessKeyChangesAllResult {
+    fun viewAccessKeyChangeAll(accountIdList: List<String>, currentAccessKey: String): ViewAccessKeyChangesAllResult {
         return jsonRpcProvider.viewAccessKeyChangesAll(accountIdList, currentAccessKey)
     }
 
@@ -127,11 +110,9 @@ open class NearService(
         return jsonRpcProvider.chunkDetails(chunkId)
     }
 
-
     fun gasPrice(blockId: Int): GasPriceResult {
         return jsonRpcProvider.gasPrice(blockId)
     }
-
 
     fun getGenesisConfig(): GenesisConfigResult {
         return jsonRpcProvider.getGenesisConfig()
@@ -145,13 +126,12 @@ open class NearService(
         return jsonRpcProvider.getNetworkStatus()
     }
 
-    fun sendMoney(accountId: String, receiverId: String, amount: String): SendMoney {
-        val androidKeyStore = AndroidKeyStore(this.sharedPreferences)
-        val networkId =
-            androidKeyStore.getNetworkId() ?: throw Error("sendMoney requires account logging")
-        val keyPair = androidKeyStore.getKey(networkId, accountId)
+    fun sendMoney(accountId: String, receiverId: String, amount: String) : SendMoney {
+        val androidKeyStore = AndroidKeyStore(activityContext)
+        val networkId = androidKeyStore.getNetworkId() ?: throw Error("sendMoney requires account logging")
+        val keyPair  = androidKeyStore.getKey(networkId, accountId)
 
-        if (keyPair != null) {
+        if(keyPair != null) {
             Log.i("NearService.sendMoney", "Sending $amount NEAR to $receiverId from $accountId")
             val account = Account(accountId, networkId, rcpEndpoint, keyPair)
             return account.sendMoney(receiverId, amount)
@@ -161,9 +141,8 @@ open class NearService(
     }
 
     fun getAccountKeyPair(accountId: String): KeyPairEd25519? {
-        val androidKeyStore = AndroidKeyStore(this.sharedPreferences)
-        val networkId =
-            androidKeyStore.getNetworkId() ?: throw Error("sendMoney requires account logging")
+        val androidKeyStore = AndroidKeyStore(activityContext)
+        val networkId = androidKeyStore.getNetworkId() ?: throw Error("sendMoney requires account logging")
         return androidKeyStore.getKey(networkId, accountId)
     }
 
@@ -171,79 +150,43 @@ open class NearService(
         return jsonRpcProvider.transactionStatus(resultHash, accountId)
     }
 
-    fun stake(accountId: String, stakingKey: String, amount: String) {
+    fun stake ( accountId: String, stakingKey: String, amount: String) {
 
     }
 
-    fun deploy(
-        accountId: String,
-        wasmFile: String,
-        initFunction: String,
-        initArgs: String,
-        initGas: String
-    ) {
+    fun deploy (accountId: String, wasmFile: String, initFunction: String, initArgs: String, initGas: String) {
 
     }
 
-    fun callViewFunctionTransaction(
-        accountId: String,
-        contractName: String,
-        methodName: String,
-        args: String = "{}",
-        gas: Long = 30000000000000,
-        attachedDeposit: String = "0"
-    ): FunctionCallTransactionResponse {
-        val androidKeyStore = AndroidKeyStore(this.sharedPreferences)
-        val networkId = androidKeyStore.getNetworkId()
-            ?: throw Error("Call Contract Function Transaction requires account logging")
-        val keyPair = androidKeyStore.getKey(networkId, accountId)
+    fun callViewFunctionTransaction( accountId: String, contractName: String, methodName: String, args: String = "{}", gas: Long = 30000000000000, attachedDeposit: String = "0" ) : FunctionCallTransactionResponse {
+        val androidKeyStore = AndroidKeyStore(activityContext)
+        val networkId = androidKeyStore.getNetworkId() ?: throw Error("Call Contract Function Transaction requires account logging")
+        val keyPair  = androidKeyStore.getKey(networkId, accountId)
 
-        if (keyPair != null) {
+        if(keyPair != null) {
             Log.i("NearService.", "callViewFunctionTransaction: $contractName.$methodName($args)")
             val account = Account(accountId, networkId, rcpEndpoint, keyPair)
-            return account.functionCallTransaction(
-                contractName,
-                methodName,
-                args,
-                gas,
-                attachedDeposit
-            )
-
+            return account.functionCallTransaction(contractName, methodName, args, gas, attachedDeposit)
         }
 
         return FunctionCallTransactionResponse()
     }
 
-    fun callViewFunction(
-        accountId: String,
-        contractName: String,
-        methodName: String,
-        args: String = "{}",
-        gas: Long = 3000000000000,
-        attachedDeposit: String = "0"
-    ): FunctionCallResponse {
-        val androidKeyStore = AndroidKeyStore(this.sharedPreferences)
-        val networkId = androidKeyStore.getNetworkId()
-            ?: throw Error("Call Contract Function requires account logging")
-        val keyPair = androidKeyStore.getKey(networkId, accountId)
+    fun callViewFunction( accountId: String, contractName: String, methodName: String, args: String = "{}") : FunctionCallResponse {
+        val androidKeyStore = AndroidKeyStore(activityContext)
+        val networkId = androidKeyStore.getNetworkId() ?: throw Error("Call Contract Function requires account logging")
+        val keyPair  = androidKeyStore.getKey(networkId, accountId)
 
-        if (keyPair != null) {
+        if(keyPair != null) {
             Log.i("NearService.", "$contractName.$methodName($args)")
             val account = Account(accountId, networkId, rcpEndpoint, keyPair)
-            return account.functionCall(
-                accountId,
-                contractName,
-                methodName,
-                args,
-                gas,
-                attachedDeposit
-            )
+            return account.functionCall(contractName, methodName, args)
         }
 
         return FunctionCallResponse()
     }
 
-    fun clean() {
+    fun clean( ) {
 
     }
 }
