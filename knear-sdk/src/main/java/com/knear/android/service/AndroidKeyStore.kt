@@ -1,16 +1,22 @@
 package com.knear.android.service
 
+import android.app.Activity
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatActivity
 import com.knear.android.scheme.KeyPair
 import com.knear.android.scheme.KeyPairEd25519
 
 
-class AndroidKeyStore(sharedPreferences: SharedPreferences) {
-    private val sharedPreferences = sharedPreferences
+class AndroidKeyStore(activityContext: Activity) {
+    private val activityContext = activityContext
     private val editor: SharedPreferences.Editor
 
     init {
-        sharedPreferences.edit().also { this.editor = it }
+        getSharedPreference().edit().also { this.editor = it }
+    }
+
+    private fun getSharedPreference(): SharedPreferences {
+        return activityContext.getSharedPreferences("NearAndroidKeystore", AppCompatActivity.MODE_PRIVATE)
     }
 
     fun setAccountId(accountId: String) {
@@ -18,8 +24,8 @@ class AndroidKeyStore(sharedPreferences: SharedPreferences) {
         editor.commit()
     }
 
-    fun getAccountId(): String? {
-        return this.sharedPreferences.getString("accountId", "")
+    fun getAccountId() : String? {
+        return this.getSharedPreference().getString("accountId", "")
     }
 
     fun setNetworkId(networkId: String) {
@@ -28,7 +34,7 @@ class AndroidKeyStore(sharedPreferences: SharedPreferences) {
     }
 
     fun getNetworkId(): String? {
-        return this.sharedPreferences.getString("networkId", "")
+        return this.getSharedPreference().getString("networkId", "")
     }
 
     fun setKey(networkId: String, accountId: String, secretKey: KeyPairEd25519) {
@@ -37,14 +43,14 @@ class AndroidKeyStore(sharedPreferences: SharedPreferences) {
         editor.commit()
     }
 
-    fun getKey(networkId: String, accountId: String): KeyPairEd25519? {
-        val secretKey = sharedPreferences.getString("$accountId:$networkId", "")
-        val publicKey = sharedPreferences.getString("$accountId:$networkId:public", "")
-        if (secretKey.isNullOrEmpty()) {
+    fun getKey(networkId: String, accountId: String) : KeyPairEd25519? {
+        val secretKey = getSharedPreference().getString("$accountId:$networkId", "")
+        val publicKey = getSharedPreference().getString("$accountId:$networkId:public", "")
+        if(secretKey.isNullOrEmpty()) {
             return null
         }
 
-        if (publicKey.isNullOrEmpty()) {
+        if(publicKey.isNullOrEmpty()) {
             return null
         }
 
