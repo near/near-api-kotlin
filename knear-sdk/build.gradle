@@ -118,7 +118,7 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
                 groupId = 'com.github.near'
-                artifactId = 'near-api'
+                artifactId = 'near-api-kotlin'
                 version = '1.0.6'
             }
         }
