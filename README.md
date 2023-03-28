@@ -25,7 +25,7 @@ We support [THIS](https://docs.near.org/api/rpc/introduction) rpc calls.
 
 First add dependency to your app build.gradle
 ```
-implementation 'com.github.near:near-api-kotlin:1.0.5'
+implementation 'com.github.near:near-api-kotlin:1.0.11`
 ```
 
 then, add the next resource in your settings.gradle
