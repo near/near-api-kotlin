@@ -9,4 +9,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "near-android-sdk"
 include ':app'
-include ':knear-sdk'
