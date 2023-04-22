@@ -33,29 +33,12 @@ class NearMainService(
         ViewModelProvider(lifecycleOwner, NearUserViewModelFactory(activity.application))[NearUserViewModel::class.java]
 
     private var nearService : NearService = NearService(walletUrl, rpcEndpoint, activity)
-    private lateinit var privateKey: KeyPairEd25519
+    private var privateKey: KeyPairEd25519 = KeyPairEd25519("","")
     private var androidKeyStore: AndroidKeyStore = AndroidKeyStore(activity)
 
-    fun login(email:String){
-        this.androidKeyStore.setAccountId(email)
-        this.androidKeyStore.setNetworkId(networkId)
-
-        val networkId = androidKeyStore.getNetworkId()
-        val accountId = androidKeyStore.getAccountId();
-
-        if(!networkId.isNullOrEmpty() && !accountId.isNullOrEmpty()) {
-            this.accountId = accountId
-            this.networkId = networkId
-        }
+    fun loginOAuth() {
         this.privateKey = KeyPair.fromRandom("ed25519")
-        loginOAuth()
-    }
-    private fun loginOAuth() {
         val loggingUri = this.nearService.startLogin(this.privateKey.publicKey, redirectUri)
-
-        this.androidKeyStore.setAccountId(accountId)
-        this.androidKeyStore.setNetworkId(networkId)
-        this.androidKeyStore.setKey(networkId, accountId, this.privateKey)
         val intent = Intent(Intent.ACTION_VIEW, loggingUri)
         activity.startActivity(intent)
     }
@@ -72,9 +55,13 @@ class NearMainService(
                     allKeys = currentKeys
                     publicKey = currentPublicKey
 
+                    this.androidKeyStore.setAccountId(accountId)
+                    this.androidKeyStore.setNetworkId(networkId)
+                    this.androidKeyStore.setKey(networkId, accountId, this.privateKey)
+
                     androidKeyStore.getKey(networkId, accountId)?.let { this.privateKey = it
 
-                    this.nearService.finishLogging(networkId, this.privateKey, accountId)
+                        this.nearService.finishLogging(networkId, this.privateKey, accountId)
                         success = true
                     }
                 }
