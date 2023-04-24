@@ -121,7 +121,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.near'
                 artifactId = 'near-api-kotlin'
-                version = '1.0.16'
+                version = '1.0.18'
             }
         }
     }
