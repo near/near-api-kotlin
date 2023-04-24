@@ -7,6 +7,7 @@ plugins {
     id 'maven-publish'
 }
 
+
 ext {
     tweetnaclJavaVersion = '1.1.2'
     cryptoKeyEd25519Version = '0.2.0'
@@ -112,6 +113,7 @@ dependencies {
     implementation files("libs/borshj-0.2.0-SNAPSHOT.jar")
     implementation files("libs/tweetnacl-java-1.1.2.jar")
 }
+
 afterEvaluate {
     publishing {
         publications {
@@ -119,7 +121,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.near'
                 artifactId = 'near-api-kotlin'
-                version = '1.0.15'
+                version = '1.0.16'
             }
         }
     }
