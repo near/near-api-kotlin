@@ -22,7 +22,7 @@ class LoginFragment : Fragment() {
             val email = v.user_email_et.text.toString()
 
             if (email.isNotEmpty()) {
-                (activity as NearDemoMainActivity).login(email)
+                (activity as NearDemoMainActivity).login()
             }
         }
 

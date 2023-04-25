@@ -3,9 +3,9 @@ package com.near.android.sdk
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.jose.lujan.near.android.sdk.R
 import com.knear.android.service.MethodUtils.Companion.getDecodedAsciiValue
 import com.knear.android.service.NearMainService
-import com.jose.lujan.near.android.sdk.R
 import com.knear.android.user.NearUserInformationListener
 import com.knear.android.user.domain.model.UserInformation
 import kotlinx.coroutines.CoroutineScope
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 
-class NearDemoMainActivity : AppCompatActivity() ,NearUserInformationListener{
+class NearDemoMainActivity : AppCompatActivity(), NearUserInformationListener {
 
     private var loginFragment: LoginFragment = LoginFragment.getInstance()
     private var transactionFragment: TransactionFragment = TransactionFragment.getInstance()
@@ -25,11 +25,11 @@ class NearDemoMainActivity : AppCompatActivity() ,NearUserInformationListener{
         setContentView(R.layout.activity_near_demo_main)
         supportFragmentManager.beginTransaction().add(R.id.demo_fragment_container, loginFragment)
             .commit()
-        nearMainService = NearMainService(this,this,this)
+        nearMainService = NearMainService(this, this, this)
     }
 
-    fun login(email: String) {
-        nearMainService.login(email)
+    fun login() {
+        nearMainService.loginOAuth()
     }
 
     override fun onResume() {
